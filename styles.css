@@ -23,17 +23,34 @@ html[data-theme="light"] {
 html, body { min-height: 100%; }
 
 body {
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: radial-gradient(circle, var(--line) 1px, transparent 1px);
+  background-size: 22px 22px;
   color: var(--fg);
   font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.65;
-  padding: 48px 24px 64px;
+  padding: 72px 24px 64px;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.6s ease, color 0.6s ease;
 }
 
-.wrap { max-width: 600px; margin: 0 auto; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.wrap {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
 
 .theme-btn {
   position: fixed;
@@ -62,19 +79,27 @@ html[data-theme="light"] .ic-sun  { display: none; }
 
 .top {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  text-align: center;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .pfp {
-  width: 76px;
-  height: 76px;
-  border-radius: 12px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
   object-fit: cover;
   background: var(--panel);
   border: 1px solid var(--line);
   flex-shrink: 0;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 h1 {
@@ -87,11 +112,12 @@ h1 {
 .tag {
   color: var(--fg-dim);
   font-size: 14.5px;
-  margin-top: 2px;
 }
 
 .badge {
-  display: inline-block;
+  display: block;
+  width: fit-content;
+  margin: 0 auto 36px;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -100,7 +126,6 @@ h1 {
   border: 1px dashed var(--line);
   border-radius: 999px;
   padding: 4px 12px;
-  margin-bottom: 36px;
 }
 
 p { color: var(--fg-dim); margin-bottom: 14px; }
@@ -130,12 +155,13 @@ footer {
   border-top: 1px solid var(--line);
   font-size: 13.5px;
   color: var(--fg-faint);
+  text-align: center;
 }
 
 @media (max-width: 480px) {
-  .pfp { width: 64px; height: 64px; border-radius: 10px; }
-  h1 { font-size: 1.35rem; }
-  body { padding: 36px 18px 48px; }
+  .pfp { width: 80px; height: 80px; }
+  h1 { font-size: 1.4rem; }
+  body { padding: 64px 18px 48px; }
 }
 
 ::view-transition-group(root) {
