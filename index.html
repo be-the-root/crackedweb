@@ -16,6 +16,21 @@
 </head>
 <body>
 
+  <div class="intro" id="intro">
+    <div class="intro-vignette"></div>
+    <div class="intro-scan"></div>
+    <div class="intro-flash"></div>
+    <div class="intro-stage">
+      <div class="intro-logo" id="introLogo">
+        <span class="logo-letter">u</span>
+        <span class="logo-letter">d</span>
+        <span class="logo-letter">e</span>
+        <span class="logo-letter">s</span>
+        <span class="logo-letter">h</span>
+      </div>
+    </div>
+  </div>
+
   <button class="theme-btn" aria-label="toggle theme">
     <svg class="ic ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -40,7 +55,7 @@
     <header class="top">
       <img src="image.png" alt="pfp" class="pfp">
       <div class="who">
-        <h1><span id="nameText" class="name-text"></span><span class="cursor">|</span></h1>
+        <h1><span id="nameText" class="name-text">udesh</span><span class="cursor">|</span></h1>
         <p class="tag"> "aka be the root"</p>
       </div>
     </header>
@@ -69,11 +84,8 @@
       <section class="stub">
         <h2>achievements</h2>
         <p>Completed 30+ machines on Hack The Box (and i also got banned this month lol)</p>
-        <p>____________________________________________________________________________________</p>
         <p>Built a small Python tool that automates recon (darkhell)</p>
-        <p>____________________________________________________________________________________</p>
-        <p>ahhh idk still working and yeh got like three cetificates in cybersec
-
+        <p>ahhh idk still working and yeh got like three cetificates in cybersec</p>
       </section>
 
       <section class="stub">
@@ -91,5 +103,14 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    setTimeout(function () {
+      if (!document.body.classList.contains('intro-done')) {
+        var i = document.getElementById('intro');
+        if (i) i.remove();
+        document.body.classList.add('intro-done');
+      }
+    }, 8000);
+  </script>
 </body>
 </html>

@@ -42,9 +42,80 @@ btn.addEventListener('click', () => {
   playGirlTransition(next);
 });
 
-(function () {
+function splitIntoChars(el) {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  let n;
+  while ((n = walker.nextNode())) textNodes.push(n);
+
+  const tokens = [];
+  textNodes.forEach(node => {
+    const text = node.nodeValue;
+    if (!text) return;
+    const frag = document.createDocumentFragment();
+    for (const ch of text) {
+      if (ch === ' ' || ch === '\n' || ch === '\t') {
+        frag.appendChild(document.createTextNode(ch === ' ' ? ' ' : ch));
+      } else {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = ch;
+        frag.appendChild(span);
+        tokens.push(span);
+      }
+    }
+    node.parentNode.replaceChild(frag, node);
+  });
+
+  return tokens;
+}
+
+function splitIntoWords(el) {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  let n;
+  while ((n = walker.nextNode())) textNodes.push(n);
+
+  const tokens = [];
+  textNodes.forEach(node => {
+    const text = node.nodeValue;
+    if (!text) return;
+    const frag = document.createDocumentFragment();
+    const parts = text.split(/(\s+)/);
+    parts.forEach(part => {
+      if (!part) return;
+      if (/^\s+$/.test(part)) {
+        frag.appendChild(document.createTextNode(part));
+      } else {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.textContent = part;
+        frag.appendChild(span);
+        tokens.push(span);
+      }
+    });
+    node.parentNode.replaceChild(frag, node);
+  });
+
+  return tokens;
+}
+
+function splitContent(el) {
+  return el.textContent.trim().length < 100
+    ? splitIntoChars(el)
+    : splitIntoWords(el);
+}
+
+const introBlocks = [];
+document.querySelectorAll('.badge, main p, main h2, footer span, .tag').forEach(el => {
+  introBlocks.push({ el, tokens: splitContent(el) });
+});
+
+function runNameAnimation() {
   const el = document.getElementById('nameText');
   if (!el) return;
+
+  el.textContent = '';
 
   const titles = [
     'security researcher',
@@ -54,9 +125,9 @@ btn.addEventListener('click', () => {
     'ctf player'
   ];
 
-  const finalName = 'Udesh';
+  const finalName = 'udesh';
   const FLIP_MS   = 220;
-  const CYCLE_MS  = 500;
+  const CYCLE_MS  = 520;
 
   let i = 0;
 
@@ -80,7 +151,7 @@ btn.addEventListener('click', () => {
   function typeName() {
     let j = 0;
     (function step() {
-      if (j < finalName.atlength) {
+      if (j < finalName.length) {
         el.textContent += finalName[j];
         j++;
         setTimeout(step, 130);
@@ -88,5 +159,110 @@ btn.addEventListener('click', () => {
     })();
   }
 
-  setTimeout(cycle, 300);
+  setTimeout(cycle, 200);
+}
+
+function startReveal() {
+  runNameAnimation();
+
+  let delay = 0.55;
+  introBlocks.forEach(({ tokens }) => {
+    const long     = tokens.length > 30;
+    const perToken = long ? 0.008 : 0.018;
+    const cap      = long ? 0.35  : 0.85;
+    const gap      = long ? 0.14  : 0.22;
+
+    tokens.forEach((tok, i) => {
+      tok.style.transitionDelay = (delay + i * perToken) + 's';
+      tok.classList.add('shown');
+    });
+    delay += Math.min(tokens.length * perToken, cap) + gap;
+  });
+}
+
+function finishIntro() {
+  const intro = document.getElementById('intro');
+  if (intro) intro.remove();
+  if (!document.body.classList.contains('intro-done')) {
+    document.body.classList.add('intro-done');
+    setTimeout(startReveal, 250);
+  }
+}
+
+function tornadoAnimation(done) {
+  const letters = document.querySelectorAll('.logo-letter');
+  if (!letters.length) { done(); return; }
+
+  const animations = [];
+
+  letters.forEach((letter, i) => {
+    const startAngle  = Math.random() * Math.PI * 2;
+    const startRadius = 700 + Math.random() * 500;
+    const swirl       = (Math.random() > 0.5 ? 1 : -1) * (Math.PI * 1.6 + Math.random() * Math.PI);
+    const spin        = (Math.random() > 0.5 ? 1 : -1) * (900 + Math.random() * 900);
+
+    const STEPS = 10;
+    const keyframes = [];
+
+    for (let s = 0; s <= STEPS; s++) {
+      const p = s / STEPS;
+      const eased = 1 - Math.pow(1 - p, 2.6);
+      const angle = startAngle + swirl * eased;
+      const radius = startRadius * (1 - eased);
+      const rot = spin * (1 - eased);
+      const scale = 0.25 + 0.75 * eased;
+      const blur = 26 * (1 - eased);
+      const opacity = Math.min(1, p * 2.4);
+
+      const tx = Math.cos(angle) * radius;
+      const ty = Math.sin(angle) * radius;
+
+      keyframes.push({
+        transform: `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${scale})`,
+        opacity: opacity,
+        filter: `blur(${blur}px)`,
+        offset: p
+      });
+    }
+
+    const anim = letter.animate(keyframes, {
+      duration: 1600,
+      delay: 150 + i * 90,
+      easing: 'linear',
+      fill: 'both'
+    });
+
+    animations.push(anim.finished);
+  });
+
+  Promise.all(animations).then(() => {
+    const logo = document.getElementById('introLogo');
+    if (logo) logo.classList.add('settle');
+
+    setTimeout(done, 550);
+  });
+}
+
+(function runIntro() {
+  const intro = document.getElementById('intro');
+  if (!intro) return;
+
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (calm) {
+    document.getElementById('nameText').textContent = 'udesh';
+    introBlocks.forEach(({ tokens }) => tokens.forEach(t => t.classList.add('shown')));
+    finishIntro();
+    return;
+  }
+
+  setTimeout(() => {
+    tornadoAnimation(() => {
+      intro.classList.add('flash');
+      setTimeout(() => {
+        intro.classList.add('done');
+        setTimeout(finishIntro, 950);
+      }, 200);
+    });
+  }, 300);
 })();
