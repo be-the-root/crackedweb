@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>portfolio — wip</title>
+  <meta name="description" content="personal portfolio, still under construction">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- set theme before paint so there's no white flash on load -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+</head>
+<body>
+
+  <button class="theme-btn" aria-label="toggle theme">
+   
+    <svg class="ic ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+    <svg class="ic ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+
+  <div class="wrap">
+
+
+
+
+    <header class="top">
+
+
+      <img src="image.png" alt="pfp" class="pfp">
+
+      <div class="who">
+
+        <h1>udesh</h1>
+
+
+        <p class="tag">idk ill put something up here &amp; whatever else i end up doing</p>
+
+
+      </div>
+
+
+
+    </header>
+
+
+
+
+    <p class="badge">gonna be lit tonight</p>
+
+    <main>
+      <section>
+        <p>
+          hey, i'm <em>udesh</em>. somethingggg<main>   
+          
+        </p>
+      </section>
+
+     
+      <section class="stub">
+        <h2>projects</h2>
+        <p>something</p>
+      </section>
+
+      <section class="stub">
+        <h2>about</h2>
+        <p>something:</p>
+      </section>
+
+      <section class="stub">
+        <h2>contact</h2>
+        <p>phone number?????</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>still cooking </span>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
