@@ -1,0 +1,186 @@
+/* ---------- themes ---------- */
+
+html[data-theme="dark"] {
+  --bg: #0b0b0c;
+  --panel: #141416;
+  --fg: #ebeae6;
+  --fg-dim: #9a9a94;
+  --fg-faint: #5c5c57;
+  --line: rgba(235, 234, 230, 0.14);
+  --hover: rgba(235, 234, 230, 0.05);
+}
+
+html[data-theme="light"] {
+  --bg: #faf9f6;
+  --panel: #ffffff;
+  --fg: #17161a;
+  --fg-dim: #4a4a46;
+  --fg-faint: #8a8a84;
+  --line: rgba(23, 22, 26, 0.14);
+  --hover: rgba(23, 22, 26, 0.05);
+}
+
+/* ---------- base ---------- */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { min-height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  padding: 48px 24px 64px;
+  -webkit-font-smoothing: antialiased;
+  /* smooth fallback for browsers without view transitions */
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+.wrap { max-width: 600px; margin: 0 auto; }
+
+/* ---------- theme button ---------- */
+
+.theme-btn {
+  position: fixed;
+  top: 20px; right: 20px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--fg-dim);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  z-index: 50;
+  transition: color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.theme-btn:hover { color: var(--fg); border-color: var(--fg); }
+.theme-btn:active { transform: scale(0.94); }
+
+.ic { width: 16px; height: 16px; }
+
+html[data-theme="dark"]  .ic-moon { display: none; }
+html[data-theme="light"] .ic-sun  { display: none; }
+
+/* ---------- header ---------- */
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.pfp {
+  width: 76px;
+  height: 76px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.tag {
+  color: var(--fg-dim);
+  font-size: 14.5px;
+  margin-top: 2px;
+}
+
+/* ---------- dev badge ---------- */
+
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  border: 1px dashed var(--line);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 36px;
+}
+
+/* ---------- content ---------- */
+
+p { color: var(--fg-dim); margin-bottom: 14px; }
+p em { color: var(--fg); font-style: normal; font-weight: 600; }
+
+section { margin-bottom: 36px; }
+
+h2 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin-bottom: 10px;
+}
+
+.stub {
+  border-left: 2px solid var(--line);
+  padding: 4px 0 4px 16px;
+}
+
+.stub p { margin: 0; font-size: 15px; }
+
+footer {
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+  color: var(--fg-faint);
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 480px) {
+  .pfp { width: 64px; height: 64px; border-radius: 10px; }
+  h1 { font-size: 1.35rem; }
+  body { padding: 36px 18px 48px; }
+}
+
+/* ============================================================
+   theme transition — dancing girl mask
+   (new theme fades in through a gif mask that scales up)
+   ============================================================ */
+
+::view-transition-group(root) {
+  animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+  z-index: 100;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: girl-reveal 1.75s cubic-bezier(0.7, 0, 0.84, 0) both;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  -webkit-mask: url(shigure-ui-smol.gif) center / 0 no-repeat;
+          mask: url(shigure-ui-smol.gif) center / 0 no-repeat;
+}
+
+@keyframes girl-reveal {
+  0%   { -webkit-mask-size: 0;       mask-size: 0; }
+  10%  { -webkit-mask-size: 25vmax;  mask-size: 25vmax; }
+  90%  { -webkit-mask-size: 25vmax;  mask-size: 25vmax; }
+  100% { -webkit-mask-size: 750vmax; mask-size: 750vmax; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none; }
+  ::view-transition-new(root) { -webkit-mask: none; mask: none; }
+}
