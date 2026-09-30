@@ -54,7 +54,7 @@ btn.addEventListener('click', () => {
     'ctf player'
   ];
 
-  const finalName = 'Udesh';
+  const finalName = 'udesh';
   const FLIP_MS   = 220;
   const CYCLE_MS  = 500;
 
