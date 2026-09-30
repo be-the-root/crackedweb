@@ -99,7 +99,7 @@ html[data-theme="light"] .ic-sun  { display: none; }
 .who {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 h1 {
@@ -107,6 +107,39 @@ h1 {
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.15;
+  perspective: 400px;
+  min-height: 1.9rem;
+}
+
+.name-text {
+  display: inline-block;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.name-text.flipping {
+  animation: flip 0.44s ease;
+}
+
+@keyframes flip {
+  0%   { transform: rotateX(0deg);   opacity: 1; }
+  50%  { transform: rotateX(90deg);  opacity: 0; }
+  51%  { transform: rotateX(-90deg); opacity: 0; }
+  100% { transform: rotateX(0deg);   opacity: 1; }
+}
+
+.cursor {
+  display: inline-block;
+  margin-left: 1px;
+  font-weight: 400;
+  color: var(--fg-faint);
+  animation: blink 0.9s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 50%   { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
 
 .tag {
@@ -148,6 +181,7 @@ h2 {
 }
 
 .stub p { margin: 0; font-size: 15px; }
+.stub p + p { margin-top: 8px; }
 
 footer {
   margin-top: 56px;
@@ -160,7 +194,7 @@ footer {
 
 @media (max-width: 480px) {
   .pfp { width: 80px; height: 80px; }
-  h1 { font-size: 1.4rem; }
+  h1 { font-size: 1.4rem; min-height: 1.7rem; }
   body { padding: 64px 18px 48px; }
 }
 
@@ -208,44 +242,4 @@ footer {
   ::view-transition-old(root),
   ::view-transition-new(root) { animation: none; }
   ::view-transition-new(root) { -webkit-mask: none; mask: none; }
-}
-
-h1 {
-  perspective: 400px;
-  min-height: 1.9rem;
-}
-
-.name-text {
-  display: inline-block;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  will-change: transform;
-}
-
-.name-text.flipping {
-  animation: flip 0.44s ease;
-}
-
-@keyframes flip {
-  0%   { transform: rotateX(0deg);   opacity: 1; }
-  50%  { transform: rotateX(90deg);  opacity: 0; }
-  51%  { transform: rotateX(-90deg); opacity: 0; }
-  100% { transform: rotateX(0deg);   opacity: 1; }
-}
-
-.cursor {
-  display: inline-block;
-  margin-left: 1px;
-  font-weight: 400;
-  color: var(--fg-faint);
-  animation: blink 0.9s step-end infinite;
-}
-
-@keyframes blink {
-  0%, 50%   { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
-@media (max-width: 480px) {
-  h1 { min-height: 1.7rem; }
 }
