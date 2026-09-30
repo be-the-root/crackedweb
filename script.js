@@ -80,7 +80,7 @@ btn.addEventListener('click', () => {
   function typeName() {
     let j = 0;
     (function step() {
-      if (j < finalName.atlength) {
+      if (j < finalName.length) {
         el.textContent += finalName[j];
         j++;
         setTimeout(step, 130);
