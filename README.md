@@ -10,6 +10,11 @@ its just my own blog with some cool animations
 ### Screenshots
 
 
+![App screenshot](img1.png)
+
+
+![App screenshot](img.png)
+
 ## Getting Started
 
 ### Dependencies
