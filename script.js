@@ -266,5 +266,3 @@ function tornadoAnimation(done) {
     });
   }, 300);
 })();
-  setTimeout(cycle, 300);
-})();

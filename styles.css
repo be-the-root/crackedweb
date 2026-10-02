@@ -371,4 +371,4 @@ footer {
   ::view-transition-new(root) { -webkit-mask: none; mask: none; }
   .pfp, .theme-btn, .char, .word, .logo-letter { opacity: 1 !important; transform: none !important; filter: none !important; }
 }
-}
+
